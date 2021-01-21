@@ -14,33 +14,32 @@
 			<div class="animated fadeInUp">
 			<center><div id="clockDisplay" class="clockStyle"></div></center>
 			<script>
-			function renderTime() {
-			var currentTime = new Date();
-			var diem = "am";
-			var h = currentTime.getHours();
-			var m = currentTime.getMinutes();
-			var s = currentTime.getSeconds();
-			setTimeout('renderTime()',1000);
-			if (h == 0) {
-				h = 12;
-			} else if (h > 12) { 
-				h = h - 12;
-				diem="pm";
-			}
-			if (h < 10) {
-				h = "0" + h;
-			}
-			if (m < 10) {
-				m = "0" + m;
-			}
-			if (s < 10) {
-				s = "0" + s;
-			}
-			var myClock = document.getElementById('clockDisplay');
-			myClock.textContent = h + ":" + m + ":" + s + " " + diem;
-			myClock.innerText = h + ":" + m + ":" + s + " " + diem;
-			}
-			renderTime();
+function updateClock() {
+    var currentTime = new Date();
+    // Operating System Clock Hours for 12h clock
+    var currentHoursAP = currentTime.getHours();
+    // Operating System Clock Hours for 24h clock
+    var currentHours = currentTime.getHours();
+    // Operating System Clock Minutes
+    var currentMinutes = currentTime.getMinutes();
+    // Operating System Clock Seconds
+    var currentSeconds = currentTime.getSeconds();
+    // Adding 0 if Minutes & Seconds is More or Less than 10
+    currentMinutes = (currentMinutes < 10 ? "0" : "") + currentMinutes;
+    currentSeconds = (currentSeconds < 10 ? "0" : "") + currentSeconds;
+    // Picking "AM" or "PM" 12h clock if time is more or less than 12
+    var timeOfDay = (currentHours < 12) ? "AM" : "PM";
+    // transform clock to 12h version if needed
+    currentHoursAP = (currentHours > 12) ? currentHours - 12 : currentHours;
+    // transform clock to 12h version after mid night
+    currentHoursAP = (currentHoursAP == 0) ? 12 : currentHoursAP;
+    // display first 24h clock and after line break 12h version
+    var currentTimeString = "24h kello: " + currentHours + ":" + currentMinutes + ":" + currentSeconds + "" + "<br>" + "12h kello: "    + currentHoursAP + ":" + currentMinutes + ":" + currentSeconds + " " + timeOfDay;
+    // print clock js in div #clock.
+    $("#clock").html(currentTimeString);}
+    $(document).ready(function () {
+    setInterval(updateClock, 1000);
+});
 			</script>		
 			</div>
 			
