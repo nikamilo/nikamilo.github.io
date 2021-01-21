@@ -16,13 +16,16 @@
 			<script>
 			function renderTime() {
 			var currentTime = new Date();
-			var diem = "";
+			var diem = "am";
 			var h = currentTime.getHours();
 			var m = currentTime.getMinutes();
 			var s = currentTime.getSeconds();
 			setTimeout('renderTime()',1000);
 			if (h == 0) {
-				h = 24;
+				h = 12;
+			} else if (h > 12) { 
+				h = h - 12;
+				diem="pm";
 			}
 			if (h < 10) {
 				h = "0" + h;
